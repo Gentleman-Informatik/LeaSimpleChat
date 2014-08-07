@@ -57,12 +57,39 @@ var ipaddr = process.env.OPENSHIFT_NODEJS_IP || config.IP;
  * 
  * @type {[swing]}
  */
-var swig = require('swig');
+var swing = require('swig');
 
 /**
  * Wich port and ip we listen ?
  */
 server.listen(port, ipaddr);
+
+/**
+ * Set html as engine
+ */
+app.engine('html', swing.renderFile);
+
+/**
+ * File extension
+ */
+app.set('view engine', 'html');
+
+/**
+ * Set the view dir
+ */
+app.set('views', config.templatePath+config.activeTemplate+'/');
+
+/**
+ * Disable cache
+ */
+app.set('view cache', false);
+
+/**
+ * Only development is false
+ * 
+ * @type {[bool]}
+ */
+swing.setDefaults({cache:false});
 
 /**
  * What we do a requets ?
@@ -72,13 +99,11 @@ server.listen(port, ipaddr);
  * @return {[Ressource]}
  */
 app.get('/', function (req, res ) {
-	var template = swig.compileFile(config.templatePath+config.activeTemplate+"/index.html");
-	var compiled = template({
+	//Render indexfile with options
+	res.render('index',{
 		pagename: 'Lea Simple Chat Default Template!',
 		authors: ['Flave', 'Agon']
 	});
-	res.writeHead(200, { 'Content-Type': 'text/html' });
-	res.end(compiled);
 });
 
 /**
