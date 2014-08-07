@@ -8,19 +8,75 @@
  * @author Flavio Kleiber, <flavio.kleiber@gentleman-informatik.ch>
  * @copyright (c) 2014 Flavio Kleiber, Gentleman Informatik
  */
+/**
+ * Requiere Express-Framework
+ * 
+ * @type {[express]}
+ */
 var app = require('express')();
+/**
+ * Create a server
+ * 
+ * @type {[http]}
+ */
 var server = require('http').Server(app);
+
+/**
+ * Set up socket.io
+ * 
+ * @type {[socket]}
+ */
 var io = require('socket.io')(server);
 
+/**
+ * Wich port we listen ?
+ * TODO: Do it in config
+ */
 server.listen(3000);
 
-app.get('/', function(req, res) {
-	res.sendfile(__dirname + '/index.html');
+/**
+ * What we do a requets ?
+ * 
+ * @param  {[Request]} req 
+ * @param  {[Ressource]} res 
+ * @return {[Ressource]}
+ */
+app.get('/', function (req, res ) {
+		res.sendfile(__dirname + '/index.html');
 });
 
-io.on('connection', function(socket) {
-	socket.emit('news', { hello: 'world' });
-	socket.on('testevent', function(data) {
-		console.log(data);
+/**
+ * Connect module
+ * 
+ * @param  {[socket Client]} socket 
+ * @return {[void]}
+ */
+io.on('connect' , function(socket) {
+	/**
+	 * Daly msg or news
+	 * 
+	 * @return {[json]}
+	 */
+	socket.emit('news', {hello:'word'});
+
+	/**
+	 * Is the user baned blocked or have
+	 * we the username allready ?
+	 * 
+	 * @param  {[string]} username 
+	 * @return {[boolean]}
+	 */
+	socket.on('checkUsername', function(username) {
+		//Do IT
+	});
+
+	/**
+	 * Function fo a normal message to all in the room
+	 * 
+	 * @param  {[string]} message 
+	 * @return void
+	 */
+	socket.on('message', function(message) {
+		//Do it
 	});
 });
