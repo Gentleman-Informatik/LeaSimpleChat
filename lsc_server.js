@@ -28,11 +28,14 @@ var server = require('http').Server(app);
  */
 var io = require('socket.io')(server);
 
+//Fix for openshift
+var port = process.env.OPENSHIFT_INTERNAL_PORT || 8080;
+
 /**
  * Wich port we listen ?
  * TODO: Do it in config
  */
-server.listen(3000);
+server.listen(port);
 
 /**
  * What we do a requets ?

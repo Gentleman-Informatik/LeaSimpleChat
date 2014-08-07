@@ -1,0 +1,7 @@
+.idea/
+public/.DS_Store
+.hg/
+.hgignore
+.DS_Store
+vendor/
+node_modules
