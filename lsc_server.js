@@ -77,6 +77,7 @@ app.get('/', function (req, res ) {
 		pagename: 'Lea Simple Chat Default Template!',
 		authors: ['Flave', 'Agon']
 	});
+	res.writeHead(200, { 'Content-Type': 'text/html' });
 	res.end(compiled);
 });
 
