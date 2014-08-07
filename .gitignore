@@ -5,3 +5,4 @@ public/.DS_Store
 .DS_Store
 vendor/
 node_modules
+config.json

@@ -9,11 +9,19 @@
  * @copyright (c) 2014 Flavio Kleiber, Gentleman Informatik
  */
 /**
+ * Require config file
+ * 
+ * @type {[json]}
+ */
+var config = require('./config.json');
+
+/**
  * Requiere Express-Framework
  * 
  * @type {[express]}
  */
 var app = require('express')();
+
 /**
  * Create a server
  * 
@@ -28,13 +36,31 @@ var server = require('http').Server(app);
  */
 var io = require('socket.io')(server);
 
-//Fix for openshift
-var port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
-var ipaddr = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
+/**
+ * If you use openshift we configure that 
+ * else we use the config port
+ *  
+ * @type {[int]}
+ */
+var port = process.env.OPENSHIFT_NODEJS_PORT || config.Port;
 
 /**
- * Wich port we listen ?
- * TODO: Do it in config
+ * If you use openshift we configure that
+ * else we use the config ip
+ * 
+ * @type {[string]}
+ */
+var ipaddr = process.env.OPENSHIFT_NODEJS_IP || config.IP;
+
+/**
+ * Include our templating engine
+ * 
+ * @type {[swing]}
+ */
+var swig = require('swig');
+
+/**
+ * Wich port and ip we listen ?
  */
 server.listen(port, ipaddr);
 
@@ -46,7 +72,12 @@ server.listen(port, ipaddr);
  * @return {[Ressource]}
  */
 app.get('/', function (req, res ) {
-		res.sendFile(__dirname + '/index.html');
+	var template = swig.compileFile(config.templatePath+config.activeTemplate+"/index.html");
+	var compiled = template({
+		pagename: 'Lea Simple Chat Default Template!',
+		authors: ['Flave', 'Agon']
+	});
+	res.end(compiled);
 });
 
 /**
