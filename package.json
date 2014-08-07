@@ -12,8 +12,9 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-	"start": "node $relative_path_from_repo_dir/lsc_server.js"
+	"start": "node lsc_server.js"
   },
+  "main" : "lsc_server.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/Gentleman-Informatik/LeaSimpleChat.git"

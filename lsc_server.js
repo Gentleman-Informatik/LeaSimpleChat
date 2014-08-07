@@ -29,8 +29,8 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
 //Fix for openshift
-var port = process.env.OPENSHIFT_INTERNAL_PORT || 8080;
-var ipaddr = process.env.OPENSHIFT_INTERNAL_IP || "127.0.0.1";
+var port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
+var ipaddr = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
 
 /**
  * Wich port we listen ?
