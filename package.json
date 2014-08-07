@@ -5,7 +5,9 @@
   "main": "lsc_server.js",
   "dependencies": {
     "socket.io": "^1.0.6",
-    "express": "^4.7.4"
+    "express": "^4.7.4",
+    "architect" : "*",
+    "ansi-color": "latest"
   },
   "devDependencies": {},
   "scripts": {

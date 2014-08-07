@@ -42,7 +42,7 @@ server.listen(3000);
  * @return {[Ressource]}
  */
 app.get('/', function (req, res ) {
-		res.sendfile(__dirname + '/index.html');
+		res.sendFile(__dirname + '/index.html');
 });
 
 /**
@@ -67,7 +67,7 @@ io.on('connect' , function(socket) {
 	 * @return {[boolean]}
 	 */
 	socket.on('checkUsername', function(username) {
-		//Do IT
+		
 	});
 
 	/**
