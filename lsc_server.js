@@ -60,6 +60,13 @@ var ipaddr = process.env.OPENSHIFT_NODEJS_IP || config.IP;
 var swing = require('swig');
 
 /**
+ * Object of clients
+ * 
+ * @type {Object}
+ */
+var clients = {}
+
+/**
  * Wich port and ip we listen ?
  */
 server.listen(port, ipaddr);
@@ -102,7 +109,7 @@ app.get('/', function (req, res ) {
 	//Render indexfile with options
 	res.render('index',{
 		pagename: 'Lea Simple Chat Default Template!',
-		authors: ['Flave', 'Agon']
+		text: "Welcome, please enter a username"
 	});
 });
 
@@ -128,7 +135,16 @@ io.on('connect' , function(socket) {
 	 * @return {[boolean]}
 	 */
 	socket.on('checkUsername', function(username) {
-		
+		if(clients[username] == undefined) {
+			clients[username] = socket.id;
+			console.log(clients);
+		} else {
+			if(clients[username] == socket.id) {
+				console.log("same socket");
+			} else {
+				console.log("in use");
+			}
+		}
 	});
 
 	/**

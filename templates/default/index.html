@@ -1,12 +1,23 @@
 <head>
 	<title>Simple Layout</title>
-	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" type="text/css" href="/templates/default/css/main.css">
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 </head>
 <body>
 	<h1>{{ pagename|title }}</h1>
-	<ul>
-	{% for author in authors %}
-	    <li{% if loop.first %} class="first"{% endif %}>{{ author }}</li>
-	{% endfor %}
-	</ul>
+	<p>
+		{{ text }}
+	</p>
+	<input type="text" id="lsc_username" />
+	<input type="submit" value="Enter chat!" id="lsc_submit">
+	<script type="text/javascript">
+		//Change that
+	 	var socket = io('http://localhost:3000');
+		$('#lsc_submit').click(function() {
+			var username = $("#lsc_username").val();
+			socket.emit("checkUsername", {username:username});
+		});
+</script>
 </body>
