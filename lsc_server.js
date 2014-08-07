@@ -30,12 +30,13 @@ var io = require('socket.io')(server);
 
 //Fix for openshift
 var port = process.env.OPENSHIFT_INTERNAL_PORT || 8080;
+var ipaddr = process.env.OPENSHIFT_INTERNAL_IP || "127.0.0.1";
 
 /**
  * Wich port we listen ?
  * TODO: Do it in config
  */
-server.listen(port);
+server.listen(port, ipaddr);
 
 /**
  * What we do a requets ?
