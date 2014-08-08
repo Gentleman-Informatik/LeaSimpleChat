@@ -60,6 +60,13 @@ var ipaddr = process.env.OPENSHIFT_NODEJS_IP || config.IP;
 var swing = require('swig');
 
 /**
+ * Include messages module
+ * 
+ * @type {[lsc_messages]}
+ */
+var lsc_messages = require('./modules/messages.js'); 
+
+/**
  * Object of clients
  * 
  * @type {Object}
@@ -134,12 +141,12 @@ io.on('connect' , function(socket) {
 	 * @param  {[string]} username 
 	 * @return {[boolean]}
 	 */
-	socket.on('checkUsername', function(username) {
-		if(clients[username] == undefined) {
-			clients[username] = socket.id;
-			console.log(clients);
+	socket.on('checkUsername', function(user) {
+		if(clients[user.username] == undefined) {
+			clients[user.username] = socket.id;
+			console.log(lsc_messages.joined(user.username));
 		} else {
-			if(clients[username] == socket.id) {
+			if(clients[user.username] == socket.id) {
 				console.log("same socket");
 			} else {
 				console.log("in use");
