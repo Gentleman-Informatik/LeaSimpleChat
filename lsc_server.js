@@ -20,7 +20,21 @@ var config = require('./config.json');
  * 
  * @type {[express]}
  */
-var app = require('express')();
+var express = require('express');
+
+/**
+ * Require path
+ * 
+ * @type {[path]}
+ */
+var path = require('path');
+
+/**
+ * Create a new app
+ * 
+ * @type {[express]}
+ */
+var app = express();
 
 /**
  * Create a server
@@ -71,7 +85,15 @@ var lsc_messages = require('./modules/messages.js');
  * 
  * @type {Object}
  */
-var clients = {}
+var clients = {};
+
+/**
+ * A object of socket.id's with username
+ * So we need nothing to store them
+ * 
+ * @type {Object}
+ */
+var ClientsPerSocket = {};
 
 /**
  * Wich port and ip we listen ?
@@ -91,12 +113,17 @@ app.set('view engine', 'html');
 /**
  * Set the view dir
  */
-app.set('views', config.templatePath+config.activeTemplate+'/');
+app.set('views', path.join(__dirname, config.templatePath+config.activeTemplate+'/'));
 
 /**
  * Disable cache
  */
 app.set('view cache', false);
+
+/**
+ * Set a static path that dosent work :(
+ */
+app.set(express.static(path.join(__dirname, 'public')));
 
 /**
  * Only development is false
@@ -138,13 +165,14 @@ io.on('connect' , function(socket) {
 	 * Is the user baned blocked or have
 	 * we the username allready ?
 	 * 
-	 * @param  {[string]} username 
+	 * @param  {[object]} user
 	 * @return {[boolean]}
 	 */
 	socket.on('checkUsername', function(user) {
 		if(clients[user.username] == undefined) {
 			clients[user.username] = socket.id;
-			console.log(lsc_messages.joined(user.username));
+			ClientsPerSocket[socket.id] = user.username;
+			io.emit('renderChat', {message:lsc_messages.joined(user.username)});
 		} else {
 			if(clients[user.username] == socket.id) {
 				console.log("same socket");
@@ -157,10 +185,15 @@ io.on('connect' , function(socket) {
 	/**
 	 * Function fo a normal message to all in the room
 	 * 
-	 * @param  {[string]} message 
-	 * @return void
+	 * @param  {[string]} data 
+	 * @return object
 	 */
 	socket.on('message', function(message) {
-		//Do it
+		var username = ClientsPerSocket[socket.id];
+		var object = {
+			message:message,
+			username:username
+		}
+		io.emit('message', object);
 	});
 });

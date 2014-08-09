@@ -61,7 +61,8 @@ module.exports = {
 	 * @return {[string]}
 	 */
 	kicked:function(userKicked, fromUser) {
-		return var msg = userKicked + " was kicked by " + fromUser;
+		var msg = userKicked + " was kicked by " + fromUser;
+		return msg;
 	}
 
 };

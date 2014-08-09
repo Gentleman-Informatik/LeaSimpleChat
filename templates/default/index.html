@@ -1,6 +1,6 @@
 <head>
 	<title>Simple Layout</title>
-	<link rel="stylesheet" type="text/css" href="/templates/default/css/main.css">
+	<link rel="stylesheet" href="/css/main.css">
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 	<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
@@ -10,14 +10,35 @@
 	<p>
 		{{ text }}
 	</p>
-	<input type="text" id="lsc_username" />
-	<input type="submit" value="Enter chat!" id="lsc_submit">
+	<div class="start">
+		<input type="text" id="lsc_username" />
+		<input type="submit" value="Enter chat!" id="lsc_submit">
+	</div>
+	<div class="chat" style="display:none;">
+		<ul>
+		</ul>
+		<input type="text" id="msg" />
+		<input type="submit" id="lsc_sendMsg" />
+	</div>
 	<script type="text/javascript">
-		//Change that
+		//This here need to be moved
 	 	var socket = io('http://localhost:3000');
 		$('#lsc_submit').click(function() {
 			var username = $("#lsc_username").val();
 			socket.emit("checkUsername", {username:username});
 		});
-</script>
+		$('#lsc_sendMsg').click(function() {
+			var message = $("#msg").val();
+			socket.emit("message", message);
+		});
+		socket.on('renderChat', function(data){
+			var msg = $.trim(data.message);
+			$('.start').remove();
+			$('.chat').css('display', 'block');
+			$('.chat ul').append('<li><span>'+ msg +'</span></li>')
+		});
+		socket.on('message', function(data) {
+			$('.chat ul').append('<li>'+ data.username +': '+ data.message + '</li>');
+		});
+	</script>
 </body>

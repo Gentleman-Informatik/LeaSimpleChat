@@ -1,6 +1,6 @@
 {
 	"__comment": "Template configs",
-	"templatePath"  : "./templates/",
+	"templatePath"  : "/templates/",
 	"activeTemplate": "default",
 	"__comment": "Ports and Ips",
 	"IP": "127.0.0.1",
