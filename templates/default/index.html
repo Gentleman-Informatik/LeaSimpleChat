@@ -22,7 +22,7 @@
 	</div>
 	<script type="text/javascript">
 		//This here need to be moved
-	 	var socket = io('http://leasimplechat-zerbarian.rhcloud.com:8080');
+	 	var socket = io('ws://leasimplechat-zerbarian.rhcloud.com:8000/');
 		$('#lsc_submit').click(function() {
 			var username = $("#lsc_username").val();
 			socket.emit("checkUsername", {username:username});
