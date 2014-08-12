@@ -23,13 +23,6 @@ var config = require('./config.json');
 var express = require('express');
 
 /**
- * Require path
- * 
- * @type {[path]}
- */
-var path = require('path');
-
-/**
  * Create a new app
  * 
  * @type {[express]}
@@ -67,13 +60,6 @@ var port = process.env.OPENSHIFT_NODEJS_PORT || config.Port;
 var ipaddr = process.env.OPENSHIFT_NODEJS_IP || config.IP;
 
 /**
- * Include our templating engine
- * 
- * @type {[swing]}
- */
-var swing = require('swig');
-
-/**
  * Include messages module
  * 
  * @type {[lsc_messages]}
@@ -101,36 +87,19 @@ var ClientsPerSocket = {};
 server.listen(port, ipaddr);
 
 /**
- * Set html as engine
- */
-app.engine('html', swing.renderFile);
-
-/**
- * File extension
- */
-app.set('view engine', 'html');
-
-/**
- * Set the view dir
- */
-app.set('views', path.join(__dirname, config.templatePath+config.activeTemplate+'/'));
-
-/**
  * Disable cache
  */
 app.set('view cache', false);
 
 /**
- * Set a static path that dosent work :(
+ * Set a static path for template
  */
-app.set(express.static(path.join(__dirname, 'public')));
+app.use(express.static(__dirname+config.templatePath+config.activeTemplate+'/'));
 
 /**
- * Only development is false
- * 
- * @type {[bool]}
+ * Set static path for api modules
  */
-swing.setDefaults({cache:false});
+app.use('/lsc_api', express.static(__dirname+'/api'));
 
 /**
  * What we do a requets ?
@@ -140,11 +109,7 @@ swing.setDefaults({cache:false});
  * @return {[Ressource]}
  */
 app.get('/', function (req, res ) {
-	//Render indexfile with options
-	res.render('index',{
-		pagename: 'Lea Simple Chat Default Template!',
-		text: "Welcome, please enter a username"
-	});
+	res.sendFile(__dirname+config.templatePath+config.activeTemplate+'/index.html');
 });
 
 /**
@@ -197,3 +162,11 @@ io.on('connect' , function(socket) {
 		io.emit('message', object);
 	});
 });
+
+/**
+ * Module for disconnect
+ * 
+ * @param  {socket} socket
+ * @return {void}
+ */
+io.on('disconnect', function(socket) {});

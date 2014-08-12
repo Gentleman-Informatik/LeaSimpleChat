@@ -2,31 +2,41 @@
 	<title>Simple Layout</title>
 	<link rel="stylesheet" href="/css/main.css">
 	<script src="/socket.io/socket.io.js"></script>
+	<script src="/lsc_api/lsc_chat.js"></script>
 	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 	<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 </head>
 <body>
-	<h1>{{ pagename|title }}</h1>
+	<h1>Lea Simple Chat</h1>
 	<p>
-		{{ text }}
+		Select a username
 	</p>
 	<div class="start">
 		<input type="text" id="lsc_username" />
-		<input type="submit" value="Enter chat!" id="lsc_submit">
+		<input type="submit" value="Enter chat!" id="lsc_submit" onclick="login()">
 	</div>
 	<div class="chat" style="display:none;">
 		<ul>
 		</ul>
-		<input type="text" id="msg" />
+		<textarea id="msg"></textarea>
 		<input type="submit" id="lsc_sendMsg" />
 	</div>
 	<script type="text/javascript">
-		//This here need to be moved
-	 	var socket = io('ws://leasimplechat-zerbarian.rhcloud.com:8000/');
-		$('#lsc_submit').click(function() {
-			var username = $("#lsc_username").val();
-			socket.emit("checkUsername", {username:username});
-		});
+		var dev = true;
+		if(dev == true) {
+			var host = "http://localhost:3000";
+		} else {
+			var host = "ws://leasimplechat-zerbarian.rhcloud.com:8000/";
+		}
+		
+		lsc_chat.connect(host);
+		
+		function login() {
+			var username = $('#lsc_username').val();
+			lsc_chat.login(username);
+		}
+
+		/*
 		$('#lsc_sendMsg').click(function() {
 			var message = $("#msg").val();
 			socket.emit("message", message);
@@ -39,6 +49,6 @@
 		});
 		socket.on('message', function(data) {
 			$('.chat ul').append('<li>'+ data.username +': '+ data.message + '</li>');
-		});
+		});*/
 	</script>
 </body>
