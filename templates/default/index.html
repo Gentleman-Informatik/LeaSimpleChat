@@ -3,6 +3,7 @@
 	<link rel="stylesheet" href="/css/main.css">
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="/lsc_api/lsc_chat.js"></script>
+	<script src="/js/default.js"></script>
 	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 	<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 </head>
@@ -22,33 +23,10 @@
 		<input type="submit" id="lsc_sendMsg" />
 	</div>
 	<script type="text/javascript">
-		var dev = true;
-		if(dev == true) {
-			var host = "http://localhost:3000";
-		} else {
-			var host = "ws://leasimplechat-zerbarian.rhcloud.com:8000/";
-		}
-		
-		lsc_chat.connect(host);
-		
-		function login() {
-			var username = $('#lsc_username').val();
-			lsc_chat.login(username);
-		}
-
-		/*
 		$('#lsc_sendMsg').click(function() {
 			var message = $("#msg").val();
+			 $("#msg").val(' ');
 			socket.emit("message", message);
 		});
-		socket.on('renderChat', function(data){
-			var msg = $.trim(data.message);
-			$('.start').remove();
-			$('.chat').css('display', 'block');
-			$('.chat ul').append('<li><span>'+ msg +'</span></li>')
-		});
-		socket.on('message', function(data) {
-			$('.chat ul').append('<li>'+ data.username +': '+ data.message + '</li>');
-		});*/
 	</script>
 </body>
