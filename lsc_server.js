@@ -44,6 +44,13 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
 /**
+ * Require mysql
+ * 
+ * @type {mysql}
+ */
+var mysql = require('mysql');
+
+/**
  * If you use openshift we configure that 
  * else we use the config port
  *  
@@ -64,7 +71,14 @@ var ipaddr = process.env.OPENSHIFT_NODEJS_IP || config.IP;
  * 
  * @type {[lsc_messages]}
  */
-var lsc_messages = require('./modules/messages.js'); 
+var lsc_messages = require('./modules/messages.js');
+
+/**
+ * Includes database module
+ * 
+ * @type {object}
+ */
+var lsc_database = require('./modules/database.js'); 
 
 /**
  * Object of clients
@@ -125,7 +139,8 @@ io.on('connect' , function(socket) {
 	 * @return {[json]}
 	 */
 	socket.emit('news', {hello:'word'});
-
+	//Set all db values
+	lsc_database.setHost(config.database.host).setDatabase(config.database.database).setUser(config.database.user).setPassword(config.database.password);
 	/**
 	 * Is the user baned blocked or have
 	 * we the username allready ?

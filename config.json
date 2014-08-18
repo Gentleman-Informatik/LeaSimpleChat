@@ -4,5 +4,12 @@
 	"activeTemplate": "default",
 	"__comment": "Ports and Ips",
 	"IP": "127.0.0.1",
-	"Port": "3000"
+	"Port": "3000",
+	"__comment": "DB STUFF",
+	"database": {
+		"host":"localhost",
+		"database":"lsc_chat",
+		"user":"root",
+		"password":" "
+	}
 }
