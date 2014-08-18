@@ -23,5 +23,6 @@
   "bugs": {
     "url": "https://github.com/Gentleman-Informatik/LeaSimpleChat/issues"
   },
-  "homepage": "https://github.com/Gentleman-Informatik/LeaSimpleChat"
+  "homepage": "https://github.com/Gentleman-Informatik/LeaSimpleChat",
+  "private": true
 }
