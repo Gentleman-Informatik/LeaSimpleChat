@@ -102,46 +102,53 @@ module.exports = {
 	 * 
 	 * @param {string} password
 	 */
-	setHost: function(password) {
+	setPassword: function(password) {
 		this.password = password;
 		return this;
-	},
-
-	/**
-	 * Connect to the database
-	 * 
-	 * @param {object} mysql
-	 * @return void
-	 */
-	connect: function(adapter) {
-		this.adapter = adapter;
-		adapter.connect(function(error) {
-			if(error != null) {
-				console.log('MYSQL HAD A ERROR: #'+error);
-			}
-		});
-	},
-
-	/**
-	 * Send a query to the db
-	 * 
-	 * @param  {string} query
-	 * @return {boolean|rows}       
-	 */
-	sendQuery: function(query) {
-		if(query == ' ' || query == null) {
-			return false;
-		} else {
-			this.adapter.query(query, function(error, rows) {
-				if(error != null) {
-					console.log('MYSQL HAD A QUERY ERROR: #'+error);
-					return false;
-				} else {
-					return rows[0];
-				}
-
-			});
-		}
 	}
 
-}
+	/**
+	 * Getter for host
+	 * 
+	 * @return {string} 
+	 */
+	getHost: function() {
+		return this.host;
+	},
+
+	/**
+	 * Getter for port
+	 * 
+	 * @return {int} 
+	 */
+	getPort: function() {
+		return this.port;
+	},
+
+	/**
+	 * Getter for database
+	 * 
+	 * @return {string} 
+	 */
+	getDatabase: function() {
+		return this.database;
+	},
+
+	/**
+	 * Getter for user
+	 * 
+	 * @return {string} 
+	 */
+	getUser: function() {
+		return this.user;
+	},
+
+	/**
+	 * Getter for password
+	 * 
+	 * @return {string} 
+	 */
+	getPassword: function() {
+		return this.password;
+	}
+};
