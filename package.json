@@ -7,8 +7,7 @@
     "ansi-color": "latest",
     "architect": "*",
     "express": "^4.7.4",
-    "socket.io": "^1.0.6",
-    "mysql":"*"
+    "socket.io": "^1.0.6"
   },
   "devDependencies": {},
   "scripts": {

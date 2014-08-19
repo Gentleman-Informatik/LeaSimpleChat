@@ -47,6 +47,13 @@ module.exports = {
 	password: null,
 
 	/**
+	 * DB object
+	 * 
+	 * @type {object}
+	 */
+	adapter: null,
+
+	/**
 	 * Setter Host
 	 * 
 	 * @param {string} host
@@ -100,8 +107,41 @@ module.exports = {
 		return this;
 	},
 
-	connect: function() {
-		
+	/**
+	 * Connect to the database
+	 * 
+	 * @param {object} mysql
+	 * @return void
+	 */
+	connect: function(adapter) {
+		this.adapter = adapter;
+		adapter.connect(function(error) {
+			if(error != null) {
+				console.log('MYSQL HAD A ERROR: #'+error);
+			}
+		});
+	},
+
+	/**
+	 * Send a query to the db
+	 * 
+	 * @param  {string} query
+	 * @return {boolean|rows}       
+	 */
+	sendQuery: function(query) {
+		if(query == ' ' || query == null) {
+			return false;
+		} else {
+			this.adapter.query(query, function(error, rows) {
+				if(error != null) {
+					console.log('MYSQL HAD A QUERY ERROR: #'+error);
+					return false;
+				} else {
+					return rows[0];
+				}
+
+			});
+		}
 	}
 
 }
