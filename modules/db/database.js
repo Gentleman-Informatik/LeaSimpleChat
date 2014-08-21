@@ -105,7 +105,17 @@ module.exports = {
 	setPassword: function(password) {
 		this.password = password;
 		return this;
-	}
+	},
+
+	/**
+	 * Setter for adapter
+	 * 
+	 * @param {object} adapter 
+	 */
+	setAdapter: function(adapter) {
+		this.adapter = adapter;
+		return this;
+	},
 
 	/**
 	 * Getter for host
@@ -150,5 +160,10 @@ module.exports = {
 	 */
 	getPassword: function() {
 		return this.password;
+	},
+
+	connect: function() {
+		console.log("STARTING CONNECTION......");
+		this.adapter.connect(this.host, this.user, this.password, this.database, this.port);
 	}
 };

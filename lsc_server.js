@@ -51,6 +51,12 @@ var io = require('socket.io')(server);
 var mysql = require('mysql');
 
 /**
+ * The sleep is back
+ * 
+ * @type {object}
+ */
+var sleep = require('sleep');
+/**
  * If you use openshift we configure that 
  * else we use the config port
  *  
@@ -78,7 +84,14 @@ var lsc_messages = require('./modules/messages.js');
  * 
  * @type {object}
  */
-var lsc_database = require('./modules/database.js'); 
+var lsc_database = require('./modules/db/database.js');
+
+/**
+ * Includes database adapter
+ * 
+ * @type {object}
+ */
+var lsc_database_adapter = require('./modules/db/adapter/'+config.database.adapter+'.js');  
 
 /**
  * Object of clients
@@ -122,6 +135,11 @@ app.use('/lsc_api', express.static(__dirname+'/api'));
  * @param  {[Ressource]} res 
  * @return {[Ressource]}
  */
+
+//DO SOME DB STUFF
+lsc_database.setHost(config.database.host).setDatabase(config.database.database).setUser(config.database.user).setPassword(config.database.password).setAdapter(lsc_database_adapter);
+lsc_database.connect();
+
 app.get('/', function (req, res ) {
 	res.sendFile(__dirname+config.templatePath+config.activeTemplate+'/index.html');
 });
@@ -139,8 +157,7 @@ io.on('connect' , function(socket) {
 	 * @return {[json]}
 	 */
 	socket.emit('news', {hello:'word'});
-	//Set all db values
-	lsc_database.setHost(config.database.host).setDatabase(config.database.database).setUser(config.database.user).setPassword(config.database.password);
+
 	/**
 	 * Is the user baned blocked or have
 	 * we the username allready ?
