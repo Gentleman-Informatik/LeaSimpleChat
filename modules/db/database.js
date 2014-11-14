@@ -93,7 +93,7 @@ module.exports = {
 	 * @return object
 	 */
 	setUser: function(user) {
-		this.host = user;
+		this.user = user;
 		return this;
 	},
 

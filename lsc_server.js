@@ -8,6 +8,7 @@
  * @author Flavio Kleiber, <flavio.kleiber@gentleman-informatik.ch>
  * @copyright (c) 2014 Flavio Kleiber, Gentleman Informatik
  */
+ console.log("=[LSC]= CHAT STARTING UP");
 /**
  * Require config file
  * 
@@ -80,6 +81,13 @@ var ipaddr = process.env.OPENSHIFT_NODEJS_IP || config.IP;
 var lsc_messages = require('./modules/messages.js');
 
 /**
+ * Include messages module
+ *s
+ * @type {[lsc_command]}
+ */
+var lsc_command = require('./modules/commands.js');
+
+/**
  * Includes database module
  * 
  * @type {object}
@@ -127,7 +135,7 @@ app.use(express.static(__dirname+config.templatePath+config.activeTemplate+'/'))
  * Set static path for api modules
  */
 app.use('/lsc_api', express.static(__dirname+'/api'));
-
+console.log("=[LSC]= CONFIG DONE! DB DO YOUR WORK, GO!!");
 /**
  * What we do a requets ?
  * 
@@ -187,8 +195,10 @@ io.on('connect' , function(socket) {
 	 */
 	socket.on('message', function(message) {
 		var username = ClientsPerSocket[socket.id];
-		var object = {
-			message:message,
+		var newmessage = lsc_command.parse(message);
+        console.log(newmessage);
+        var object = {
+			message:newmessage,
 			username:username
 		}
 		io.emit('message', object);
@@ -202,3 +212,4 @@ io.on('connect' , function(socket) {
  * @return {void}
  */
 io.on('disconnect', function(socket) {});
+console.log("=[LSC]= IS READY");

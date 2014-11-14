@@ -8,7 +8,7 @@
  * @author Flavio Kleiber, <flavio.kleiber@gentleman-informatik.ch>
  * @copyright (c) 2014 Flavio Kleiber, Gentleman Informatik
  */
-var dev = false;
+var dev = true;
 if(dev == true) {
 	var host = "http://localhost:3000";
 } else {
