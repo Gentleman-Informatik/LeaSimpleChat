@@ -15,7 +15,14 @@ module.exports = {
      *
      * @type {object}
      */
-	mongo : require('mongoose'),
+	mongo: require('mongoose'),
+
+    /**
+     * db object
+     *
+     * @type {object}
+     */
+    db: null,
 
     /**
      * Connect to a mongodb
@@ -34,12 +41,15 @@ module.exports = {
         if(database == undefined || database == '') {
             database = 'simpleChat';
         }
+        /*CONNECTION STUFF*/
         var mongoose = this.mongo.connect('mongodb://'+ host +'/' + database);
         var db = mongoose.connection;
         db.on('error', console.error.bind(console, 'connection error:'));
         db.once('open', function callback () {
             console.log('CONNECTION DONE!');
+            this.db = db;
         });
+        this.setUpModel(db, mongoose);        
     },
 
 	query: function(query) {
@@ -51,5 +61,27 @@ module.exports = {
 
 	isUserAdmin: function() {},
 
-	checkUser: function() {}
+	checkUser: function() {},
+
+    /**
+     * Setup model
+     *
+     * @param object host
+     * @param object user
+     * @return void
+     */
+    setUpModel: function(db, mongoose) {
+        var lscSchema = mongoose.Schema({
+            username: String,
+            message: String,
+            time: { type: Date, default: Date.now }
+        });
+        lscSchema.methods.getMessage = function () {
+            var messageWritten = this.username + ':' + this.message + '(' + this.time + ')';
+            console.log(messageWritten);
+        };
+        var LscMessage = mongoose.model('LscMessage', lscSchema);
+        var msg = new LscMessage({username:'flaver', message:'My Test msg'});
+        console.log(msg.getMessage());
+    }
 };

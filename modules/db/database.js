@@ -161,9 +161,25 @@ module.exports = {
 	getPassword: function() {
 		return this.password;
 	},
-
+	
+	/**
+	 * Connection function
+	 * 
+	 * @return void
+	 */
 	connect: function() {
 		console.log("STARTING CONNECTION......");
 		this.adapter.connect(this.host, this.user, this.password, this.database, this.port);
-	}
+	},
+
+	/**
+	 * First startup
+	 * 
+	 * @return void
+	FOR V2
+	firstStartUp: function() {
+		console.log("FIRST STARTUP CHECK");
+		this.adapter.checkDB();
+		console.log();
+	}*/
 };
