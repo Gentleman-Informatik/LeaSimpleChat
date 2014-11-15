@@ -4,7 +4,7 @@ LeaSimpleChat
 LeaSimpleChat is a node.js based Chat, with:
 
 * Easy view system  
-* Plugins
+* Plugins (V2)
 * Stabel  
 
 and more stuff
@@ -29,7 +29,7 @@ Used Extensions
 
 Installed plugins
 =============
-
+##### Will be in V2
 When you install Lea Simple Chat, some plugins are installed for you.   
 So the plugins are:
 
